@@ -1,0 +1,61 @@
+<html>
+
+<head>
+    <title>You</title>
+</head>
+
+<body>
+    <box class="Boxy">
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <h1 style="text-align:center">Webpage for calculating the Score for tribal houses:</h1>
+        <h4>Please upload an excel file:</h4>
+        <input type="file" name="file" style="padding:5px">
+        <br>
+        <h4>Please select all the dimensions which you need to calculate the Score</h4>
+        <label for="vehicle1"> 1) Health</label>
+        <input type="checkbox" id="vehicle1" name="v" value="1">
+
+        <label for="vehicle2"> 2) Education</label>
+        <input type="checkbox" id="vehicle2" name="v" value="2">
+
+        <label for="vehicle3"> 3) Standard of Living</label>
+        <input type="checkbox" id="vehicle3" name="v" value="3">
+
+        <label for="vehicle4"> 4) Culture</label>
+        <input type="checkbox" id="vehicle4" name="v" value="4">
+
+        <label for="vehicle5"> 5) Governance</label>
+        <input type="checkbox" id="vehicle5" name="v" value="5">
+        <br>
+        <br>
+        <input type="submit">
+    </form>
+
+    <p></p>
+        <hr>
+<!--    <div style="text-align:center">-->
+    <table border="1" style="width:100%">
+        <tr>
+            <td>Serial_no</td>
+            <td>data_latitude</td>
+            <td>data_longitude</td>
+            <td>House_no</td>
+            <td>Village_name</td>
+            <td>Final_score</td>
+        </tr>
+        {% for row in excel_data %}
+        <tr>
+            {% for cell in row %}
+            <td>{{ cell }}&nbsp;&nbsp;</td>
+            {% endfor %}
+<!--            <br>-->
+        </tr>
+        {% endfor %}
+    </table>
+<!--    </div>-->
+    </box>
+
+</body>
+
+</html>
