@@ -1013,6 +1013,108 @@ def parse(file2, a, b, c, d, e):
     # print(len(sqmeals))
 
     # TotalScore
+    needed['score'] = TotalScore
+    tribe = df['Tribe_N'].values.tolist()
+
+    count = [0] * len(unique_list)
+
+    def CountMem(list1):
+
+        # initialize a null list
+
+        # traverse for all elements
+        for x in list1:
+            # check if exists in unique_list or not
+            for j in range(len(unique_list)):
+                if (x == unique_list[j]):
+                    count[j] = count[j] + 1
+
+    CountMem(df2)
+
+    # count
+    needed['count'] = count
+    # needed['count']
+
+    df5 = df['Tribe_N'].values.tolist()
+    TribeFamily = [0] * len(unique_list)
+
+    for i in range(len(unique_list)):
+        for j in range(len(df2)):
+            if (unique_list[i] == df2[j]):
+                TribeFamily[i] = df5[j]
+
+    TribeFamily
+    needed['Tribe'] = TribeFamily
+    # needed
+
+    thres = 1 / 3
+
+    # FinalTable=pd.DataFrame(Tribe, columns=['tribe'])
+    # FinalTable
+
+    df6 = needed[['score', 'count', 'Tribe']].values.tolist()
+
+    tribe = needed['Tribe'].values.tolist()
+
+    Tribe = []
+
+    def unique(list1):
+
+        # initialize a null list
+
+        # traverse for all elements
+        for x in list1:
+            # check if exists in unique_list or not
+            if x not in Tribe:
+                Tribe.append(x)
+
+    unique(tribe)
+
+    FinalTable = pd.DataFrame(Tribe, columns=['tribe'])
+
+    TotalPeople = [0] * len(Tribe)
+    DevelopedPeople = [0] * len(Tribe)
+    Incidence = [0] * len(Tribe)
+    k = 0
+
+    for i in range(len(Tribe)):
+        for j in range(len(df6)):
+            if (df6[j][2] == Tribe[i]):
+                TotalPeople[i] += df6[j][1]
+                if (df6[j][0] > thres):
+                    DevelopedPeople[i] += df6[j][1]
+                # if(df6[j][2]=='बैगा'):
+                #   k+=df6[j][0]
+
+    # TotalPeople
+    # df6
+
+    for i in range(len(Tribe)):
+        Incidence[i] = DevelopedPeople[i] / TotalPeople[i]
+
+    # Incidence
+
+    Intensity = [0] * len(Tribe)
+
+    for i in range(len(Tribe)):
+        for j in range(len(needed)):
+            if (df6[j][2] == Tribe[i] and df6[j][0] > thres):
+                Intensity[i] += df6[j][1] * df6[j][0]
+        if (DevelopedPeople[i] == 0):
+            Intensity[i] = '-'
+        else:
+            Intensity[i] /= DevelopedPeople[i]
+
+    TDI = [0] * len(Tribe)
+
+    for i in range(len(Tribe)):
+        TDI[i] = Intensity[i] * Incidence[i]
+
+    FinalTable['Incidence'] = Incidence
+    FinalTable['Intensity'] = Intensity
+    FinalTable['TDI'] = TDI
+
+
     serial_no=[0]*len(unique_list)
 
     for i in range(len(unique_list)):
@@ -1040,5 +1142,5 @@ def parse(file2, a, b, c, d, e):
     need['house_no']=needed['house_no']
     need['village_name']=needed['village_name']
     need['score']=TotalScore
-    needed['score']=TotalScore
-    return need
+
+    return FinalTable
