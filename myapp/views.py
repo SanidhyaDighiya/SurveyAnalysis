@@ -41,6 +41,13 @@ def home(request):
         excel_dat = excel_dat.values.tolist()
         # excel_dat.append(check_values)
 
+        documents = FilesUpload.objects.all()
+
+        for file in documents:
+            file.delete()
+
+
+
         return render(request, "index.html", {"excel_data":excel_dat})
     return render(request, "index.html")
 
