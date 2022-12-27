@@ -680,7 +680,7 @@ def parse(file2, a, b, c, d, e):
 
         culture[i] = k / 2
 
-    score = [0] * 89
+    score = [0] * len(unique_list)
     df3 = df['agricultureland'].values.tolist()
     df4 = df['home_ownership'].values.tolist()
     len(unique_list)
@@ -973,7 +973,7 @@ def parse(file2, a, b, c, d, e):
 
     JLKC = score
 
-    standard_of_living = [0] * 89
+    standard_of_living = [0] * len(unique_list)
 
     for i in range(len(Governance)):
         # Education[i]*=1.0
