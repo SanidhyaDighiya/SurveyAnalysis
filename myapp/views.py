@@ -1,7 +1,7 @@
 from django.shortcuts import render, HttpResponse
 import openpyxl
 from . models import FilesUpload
-from .helper import parse
+from .helper import parse, parse2
 import os, glob
 
 # import openpyxl
@@ -37,9 +37,22 @@ def home(request):
 
 
 
-        excel_dat = parse(files[0], t[0], t[1], t[2], t[3], t[4])
-        excel_dat = excel_dat.values.tolist()
+        excel_dat1 = parse(files[0], t[0], t[1], t[2], t[3], t[4])
+        excel_dat1 = excel_dat1.values.tolist()
         # excel_dat.append(check_values)
+
+        excel_dat2 = parse2(files[0], t[0], t[1], t[2], t[3], t[4])
+        excel_dat2 = excel_dat2.values.tolist()
+
+        excel_dat=[excel_dat2, excel_dat1]
+        # excel_dat = excel_dat.values.tolist()
+
+        ata2=['Tribe', 'Incidence', 'Intensity', 'TDI']
+        ata1=['Serial_no', 'Latitude', 'Longitude', 'House_no', 'Village_name', 'Score']
+
+        excel_dat1.insert(0,ata2)
+        excel_dat2.insert(0,ata1)
+
 
         documents = FilesUpload.objects.all()
 
@@ -48,7 +61,7 @@ def home(request):
 
 
 
-        return render(request, "index.html", {"excel_data":excel_dat})
+        return render(request, "index.html", {"excel_dat":excel_dat})
     return render(request, "index.html")
 
 # Create your views here.
